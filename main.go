@@ -14,13 +14,13 @@ import (
 
 // Constants
 const htmlAbout = `Welcome on <b>Astilectron</b> demo!<br>
-This is using the bootstrap and the bundler.`
+This is using the bootstrap-4.0.0 and the bundler.`
 
 // Vars
 var (
 	AppName string
 	BuiltAt string
-	debug   = flag.Bool("d", false, "enables the debug mode")
+	debug   = flag.Bool("d", true, "enables the debug mode")
 	w       *astilectron.Window
 )
 
@@ -29,7 +29,7 @@ func main() {
 	flag.Parse()
 	astilog.FlagInit()
 
-	// Run bootstrap
+	// Run bootstrap-4.0.0
 	astilog.Debugf("Running app built at %s", BuiltAt)
 	if err := bootstrap.Run(bootstrap.Options{
 		Asset:    Asset,
@@ -80,11 +80,11 @@ func main() {
 			Options: &astilectron.WindowOptions{
 				BackgroundColor: astilectron.PtrStr("#333"),
 				Center:          astilectron.PtrBool(true),
-				Height:          astilectron.PtrInt(700),
-				Width:           astilectron.PtrInt(700),
+				Height:          astilectron.PtrInt(600),
+				Width:           astilectron.PtrInt(800),
 			},
 		}},
 	}); err != nil {
-		astilog.Fatal(errors.Wrap(err, "running bootstrap failed"))
+		astilog.Fatal(errors.Wrap(err, "running bootstrap-4.0.0 failed"))
 	}
 }

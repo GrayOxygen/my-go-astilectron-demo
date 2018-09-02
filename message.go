@@ -12,6 +12,7 @@ import (
 	"github.com/asticode/go-astichartjs"
 	"github.com/asticode/go-astilectron"
 	"github.com/asticode/go-astilectron-bootstrap"
+	"strings"
 )
 
 // handleMessages handles messages
@@ -33,8 +34,30 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 			payload = err.Error()
 			return
 		}
+	case "jsonToStruct":
+		// Unmarshal payload
+		var jsonStr string
+		if len(m.Payload) > 0 {
+			// Unmarshal payload
+			if err = json.Unmarshal(m.Payload, &jsonStr); err != nil {
+				payload = err.Error()
+				return
+			}
+		}
+		if len(strings.TrimSpace(jsonStr)) > 0 {
+			// Init exploration
+			payload = StructInfo{
+				NestStructData: jsonStr,
+				StructData:     jsonStr,
+			}
+		}
 	}
 	return
+}
+
+type StructInfo struct {
+	NestStructData string `json:"nestStructData"`
+	StructData     string `json:"structData"`
 }
 
 // Exploration represents the results of an exploration
