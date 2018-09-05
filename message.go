@@ -13,6 +13,8 @@ import (
 	"github.com/asticode/go-astilectron"
 	"github.com/asticode/go-astilectron-bootstrap"
 	"strings"
+	"perfectjsongo/api"
+	"fmt"
 )
 
 // handleMessages handles messages
@@ -34,7 +36,7 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 			payload = err.Error()
 			return
 		}
-	case "jsonToStruct":
+	case "jsonToStruct": //解析操作
 		// Unmarshal payload
 		var jsonStr string
 		if len(m.Payload) > 0 {
@@ -45,10 +47,19 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 			}
 		}
 		if len(strings.TrimSpace(jsonStr)) > 0 {
-			// Init exploration
-			payload = StructInfo{
-				NestStructData: jsonStr,
-				StructData:     jsonStr,
+			//TODO 解析
+			nstct, stct, err := api.JSON2Struct(jsonStr)
+			fmt.Println(err)
+			if err != nil {
+				payload = err.Error()
+
+			} else {
+
+				// Init exploration
+				payload = StructInfo{
+					NestStructData: nstct,
+					StructData:     stct,
+				}
 			}
 		}
 	}
