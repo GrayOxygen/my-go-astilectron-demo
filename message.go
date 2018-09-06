@@ -1,6 +1,7 @@
 package main
 
 import (
+	"perfectjsongo/api"
 	"encoding/json"
 	"github.com/asticode/go-astichartjs"
 	"io/ioutil"
@@ -12,7 +13,6 @@ import (
 
 	"github.com/asticode/go-astilectron"
 	"github.com/asticode/go-astilectron-bootstrap"
-	"perfectjsongo/api"
 	"strings"
 )
 
@@ -41,32 +41,58 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 		if len(m.Payload) > 0 {
 			// Unmarshal payload
 			if err = json.Unmarshal(m.Payload, &jsonStr); err != nil {
-				payload = err.Error()
-				return
-			}
-		}
-		if len(strings.TrimSpace(jsonStr)) > 0 {
-			//TODO 解析
-			nstct, stct, er := api.JSON2Struct(jsonStr)
-			if er != nil {
 				payload = StructInfo{
-					NestStructData: nstct,
-					StructData:     stct,
+					NestStructData: "",
+					StructData:     "",
 					Error: &CommonError{
 						Name:    "error",
-						Message: er.Error(),
+						Message: err.Error(),
 					},
 				}
-				err = er
+				return
+			}
+
+			if len(strings.TrimSpace(jsonStr)) > 0 {
+				//TODO 解析
+				nstct, stct, er := api.JSON2Struct(jsonStr)
+				if er != nil {
+					payload = StructInfo{
+						NestStructData: "",
+						StructData:     "",
+						Error: &CommonError{
+							Name:    "error",
+							Message: er.Error(),
+						},
+					}
+					err = er
+				} else {
+					// Init exploration
+					payload = StructInfo{
+						NestStructData: nstct,
+						StructData:     stct,
+						Error:          nil,
+					}
+					return
+				}
 			} else {
-				// Init exploration
 				payload = StructInfo{
-					NestStructData: nstct,
-					StructData:     stct,
+					NestStructData: "",
+					StructData:     "",
 					Error:          nil,
 				}
+				return
 			}
+
 		}
+		payload = StructInfo{
+			NestStructData: "",
+			StructData:     "",
+			Error: &CommonError{
+				Name:    "error",
+				Message: "payload为空",
+			},
+		}
+
 	}
 	return
 }

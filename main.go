@@ -11,8 +11,38 @@ import (
 )
 
 // Constants
-const htmlAbout = `欢迎使用<b>JSON转非嵌套Struct工具</b>！<br>
-用到技术有：bootstrap-4.0.0，the bundler.`
+const htmlAbout = `</b>  
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        欢迎使用<b>JSON转非嵌套Struct工具!
+		</h3>
+	</div>
+	<div class="panel-body">
+		对json-to-go.js生成的嵌套Struct构建树解析，用go-astilectron做GUI<br> 
+		peferctjsongo可执行文件与json-to-go.js置于同一目录下即可使用<br> 
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+        关于我
+		</h3>
+	</div>
+	<li class="list-group-item">
+		<span class="badge">GitHub</span>
+		https://github.com/GrayOxygen
+	</li>
+	<li class="list-group-item">
+		<span class="badge">Blog</span>
+		https://grayoxygen.github.io/ShineOxygenBlog
+	</li>
+	<li class="list-group-item">
+		<span class="badge">Wiki</span>
+		https://grayoxygen.github.io/ShineOxygenWiki 
+	</li>
+</div>
+`
 
 // Vars
 var (
@@ -61,16 +91,16 @@ func main() {
 				{Role: astilectron.MenuItemRoleClose},
 			},
 		}},
-		//OnWait: func(_ *astilectron.Astilectron, ws []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
-		//	w = ws[0]
-		//	go func() {
-		//		time.Sleep(5 * time.Second)
-		//		if err := bootstrap.SendMessage(w, "check.out.menu", "Don't forget to check out the menu!"); err != nil {
-		//			astilog.Error(errors.Wrap(err, "sending check.out.menu event failed"))
-		//		}
-		//	}()
-		//	return nil
-		//},
+		OnWait: func(_ *astilectron.Astilectron, ws []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
+			w = ws[0]
+			//go func() {
+			//	time.Sleep(5 * time.Second)
+			//	if err := bootstrap.SendMessage(w, "check.out.menu", "Don't forget to check out the menu!"); err != nil {
+			//		astilog.Error(errors.Wrap(err, "sending check.out.menu event failed"))
+			//	}
+			//}()
+			return nil
+		},
 		RestoreAssets: RestoreAssets,
 		Windows: []*bootstrap.Window{{
 			Homepage:       "index.html",
@@ -78,8 +108,8 @@ func main() {
 			Options: &astilectron.WindowOptions{
 				BackgroundColor: astilectron.PtrStr("#333"),
 				Center:          astilectron.PtrBool(true),
-				Height:          astilectron.PtrInt(600),
-				Width:           astilectron.PtrInt(800),
+				Height:          astilectron.PtrInt(1080),
+				Width:           astilectron.PtrInt(1920),
 			},
 		}},
 	}); err != nil {
