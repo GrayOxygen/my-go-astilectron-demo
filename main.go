@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"time"
 
 	"encoding/json"
 	"github.com/asticode/go-astilectron"
@@ -40,10 +39,10 @@ func main() {
 		},
 		Debug: *debug,
 		MenuOptions: []*astilectron.MenuItemOptions{{
-			Label: astilectron.PtrStr("File"),
+			Label: astilectron.PtrStr("选项"),
 			SubMenu: []*astilectron.MenuItemOptions{
 				{
-					Label: astilectron.PtrStr("About"),
+					Label: astilectron.PtrStr("关于我"),
 					OnClick: func(e astilectron.Event) (deleteListener bool) {
 						if err := bootstrap.SendMessage(w, "about", htmlAbout, func(m *bootstrap.MessageIn) {
 							// Unmarshal payload
@@ -62,16 +61,16 @@ func main() {
 				{Role: astilectron.MenuItemRoleClose},
 			},
 		}},
-		OnWait: func(_ *astilectron.Astilectron, ws []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
-			w = ws[0]
-			go func() {
-				time.Sleep(5 * time.Second)
-				if err := bootstrap.SendMessage(w, "check.out.menu", "Don't forget to check out the menu!"); err != nil {
-					astilog.Error(errors.Wrap(err, "sending check.out.menu event failed"))
-				}
-			}()
-			return nil
-		},
+		//OnWait: func(_ *astilectron.Astilectron, ws []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
+		//	w = ws[0]
+		//	go func() {
+		//		time.Sleep(5 * time.Second)
+		//		if err := bootstrap.SendMessage(w, "check.out.menu", "Don't forget to check out the menu!"); err != nil {
+		//			astilog.Error(errors.Wrap(err, "sending check.out.menu event failed"))
+		//		}
+		//	}()
+		//	return nil
+		//},
 		RestoreAssets: RestoreAssets,
 		Windows: []*bootstrap.Window{{
 			Homepage:       "index.html",
