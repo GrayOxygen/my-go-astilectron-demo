@@ -12,8 +12,8 @@ import (
 )
 
 // Constants
-const htmlAbout = `Welcome on <b>Astilectron</b> demo!<br>
-This is using the bootstrap-4.0.0 and the bundler.`
+const htmlAbout = `欢迎使用<b>JSON转非嵌套Struct工具</b>！<br>
+用到技术有：bootstrap-4.0.0，the bundler.`
 
 // Vars
 var (

@@ -24,7 +24,7 @@ let index = {
             // Check error
             if (message){
                 if ( message.name === "error") {
-                    asticode.notifier.error(message.payload);
+                    asticode.notifier.error(message.payload.error.message);
                     return
                 }
 
