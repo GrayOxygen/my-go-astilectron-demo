@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"encoding/json"
-
 	"github.com/asticode/go-astilectron"
 	"github.com/asticode/go-astilectron-bootstrap"
 	"github.com/asticode/go-astilog"

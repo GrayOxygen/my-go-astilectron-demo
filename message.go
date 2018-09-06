@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/asticode/go-astichartjs"
 	"io/ioutil"
 	"os"
 	"os/user"
@@ -9,12 +10,10 @@ import (
 	"sort"
 	"strconv"
 
-	"github.com/asticode/go-astichartjs"
 	"github.com/asticode/go-astilectron"
 	"github.com/asticode/go-astilectron-bootstrap"
-	"strings"
 	"perfectjsongo/api"
-	"fmt"
+	"strings"
 )
 
 // handleMessages handles messages
@@ -48,17 +47,23 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 		}
 		if len(strings.TrimSpace(jsonStr)) > 0 {
 			//TODO 解析
-			nstct, stct, err := api.JSON2Struct(jsonStr)
-			fmt.Println(err)
-			if err != nil {
-				payload = err.Error()
-
+			nstct, stct, er := api.JSON2Struct(jsonStr)
+			if er != nil {
+				payload = StructInfo{
+					NestStructData: nstct,
+					StructData:     stct,
+					Error: &CommonError{
+						Name:    "error",
+						Message: er.Error(),
+					},
+				}
+				err = er
 			} else {
-
 				// Init exploration
 				payload = StructInfo{
 					NestStructData: nstct,
 					StructData:     stct,
+					Error:          nil,
 				}
 			}
 		}
@@ -66,9 +71,14 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 	return
 }
 
+type CommonError struct {
+	Name    string `json:"name"` //ok表示正常，error表示错误
+	Message string `json:"message"`
+}
 type StructInfo struct {
-	NestStructData string `json:"nestStructData"`
-	StructData     string `json:"structData"`
+	NestStructData string       `json:"nestStructData"`
+	StructData     string       `json:"structData"`
+	Error          *CommonError `json:"error"`
 }
 
 // Exploration represents the results of an exploration

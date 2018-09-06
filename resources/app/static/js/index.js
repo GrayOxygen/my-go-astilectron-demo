@@ -12,26 +12,25 @@ let index = {
             document.getElementById("jsonData").onpropertychange= function() { index.jsonChange() };
             // document.getElementById("parseBtn").onclick = function() { index.jsonChange() };
 
-
             index.jsonChange();
             // Listen
             index.listen();
-
             // Explore default path
             // index.explore();
-
         })
     },
     jsonChange:function(){
         astilectron.sendMessage({name: "jsonToStruct", payload:  document.getElementById("jsonData").value  }, function(message) {
             // Check error
-            if (message.name === "error") {
-                asticode.notifier.error(message.payload);
-                return
-            }
+            if (message){
+                if ( message.name === "error") {
+                    asticode.notifier.error(message.payload);
+                    return
+                }
 
-            document.getElementById("structData").value = message.payload.structData;
-            document.getElementById("nestStructData").value = message.payload.nestStructData;
+                document.getElementById("structData").value = message.payload.structData;
+                document.getElementById("nestStructData").value = message.payload.nestStructData;
+            }
         });
 
     },
