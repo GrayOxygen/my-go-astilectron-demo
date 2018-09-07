@@ -26,12 +26,10 @@ let index = {
                         document.getElementById("structData").value = "";
                         document.getElementById("nestStructData").value = "";
                         asticode.notifier.error(message.payload.error.message);
-                        message.payload=""
                         return
                     }
                     document.getElementById("structData").value = message.payload.structData;
                     document.getElementById("nestStructData").value = message.payload.nestStructData;
-                    message.payload=""
                     return
                 }
                 document.getElementById("structData").value = "";

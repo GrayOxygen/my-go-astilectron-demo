@@ -82,15 +82,6 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 				}
 				return
 			}
-
-		}
-		payload = StructInfo{
-			NestStructData: "",
-			StructData:     "",
-			Error: &CommonError{
-				Name:    "error",
-				Message: "payload为空",
-			},
 		}
 
 	}
