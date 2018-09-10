@@ -19,8 +19,7 @@ const htmlAbout = `</b>
 		</h3>
 	</div>
 	<div class="panel-body">
-		对json-to-go.js生成的嵌套Struct构建树解析，用go-astilectron做GUI<br> 
-		peferctjsongo可执行文件与json-to-go.js置于同一目录下即可使用<br> 
+		Powered By Json-To-Go.js Go-Astilectron <br> 
 	</div>
 </div>
 <div class="panel panel-default">
@@ -37,10 +36,7 @@ const htmlAbout = `</b>
 		<span class="badge">Blog</span>
 		https://grayoxygen.github.io/ShineOxygenBlog
 	</li>
-	<li class="list-group-item">
-		<span class="badge">Wiki</span>
-		https://grayoxygen.github.io/ShineOxygenWiki 
-	</li>
+ 
 </div>
 `
 
@@ -48,7 +44,7 @@ const htmlAbout = `</b>
 var (
 	AppName string
 	BuiltAt string
-	debug   = flag.Bool("d", true, "enables the debug mode")
+	debug   = flag.Bool("d", false, "enables the debug mode")
 	w       *astilectron.Window
 )
 
@@ -68,29 +64,57 @@ func main() {
 			AppIconDefaultPath: "resources/icon.png",
 		},
 		Debug: *debug,
-		MenuOptions: []*astilectron.MenuItemOptions{{
-			Label: astilectron.PtrStr("选项"),
-			SubMenu: []*astilectron.MenuItemOptions{
-				{
-					Label: astilectron.PtrStr("关于我"),
-					OnClick: func(e astilectron.Event) (deleteListener bool) {
-						if err := bootstrap.SendMessage(w, "about", htmlAbout, func(m *bootstrap.MessageIn) {
-							// Unmarshal payload
-							var s string
-							if err := json.Unmarshal(m.Payload, &s); err != nil {
-								astilog.Error(errors.Wrap(err, "unmarshaling payload failed"))
-								return
+		MenuOptions: []*astilectron.MenuItemOptions{
+			{
+				Label: astilectron.PtrStr("选项"),
+				SubMenu: []*astilectron.MenuItemOptions{
+					{
+						Label: astilectron.PtrStr("关于我"),
+						OnClick: func(e astilectron.Event) (deleteListener bool) {
+							if err := bootstrap.SendMessage(w, "about", htmlAbout, func(m *bootstrap.MessageIn) {
+								// Unmarshal payload
+								var s string
+								if err := json.Unmarshal(m.Payload, &s); err != nil {
+									astilog.Error(errors.Wrap(err, "unmarshaling payload failed"))
+									return
+								}
+								astilog.Infof("About modal has been displayed and payload is %s!", s)
+							}); err != nil {
+								astilog.Error(errors.Wrap(err, "sending about event failed"))
 							}
-							astilog.Infof("About modal has been displayed and payload is %s!", s)
-						}); err != nil {
-							astilog.Error(errors.Wrap(err, "sending about event failed"))
-						}
-						return
+							return
+						},
 					},
+
+					{Role: astilectron.MenuItemRoleClose},
 				},
-				{Role: astilectron.MenuItemRoleClose},
 			},
-		}},
+			{
+				Label: astilectron.PtrStr("编辑"),
+				SubMenu: []*astilectron.MenuItemOptions{
+					{Role: astilectron.MenuItemRoleClose},
+					{Role: astilectron.MenuItemRoleCopy},
+					{Role: astilectron.MenuItemRoleCut},
+					{Role: astilectron.MenuItemRoleDelete},
+					{Role: astilectron.MenuItemRoleEditMenu},
+					{Role: astilectron.MenuItemRoleForceReload},
+					{Role: astilectron.MenuItemRoleMinimize},
+					{Role: astilectron.MenuItemRolePaste},
+					{Role: astilectron.MenuItemRolePasteAndMatchStyle},
+					{Role: astilectron.MenuItemRoleQuit},
+					{Role: astilectron.MenuItemRoleRedo},
+					{Role: astilectron.MenuItemRoleReload},
+					{Role: astilectron.MenuItemRoleResetZoom},
+					{Role: astilectron.MenuItemRoleSelectAll},
+					{Role: astilectron.MenuItemRoleToggleDevTools},
+					{Role: astilectron.MenuItemRoleToggleFullScreen},
+					{Role: astilectron.MenuItemRoleUndo},
+					{Role: astilectron.MenuItemRoleWindowMenu},
+					{Role: astilectron.MenuItemRoleZoomOut},
+					{Role: astilectron.MenuItemRoleZoomIn},
+				},
+			},
+		},
 		OnWait: func(_ *astilectron.Astilectron, ws []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
 			w = ws[0]
 			//go func() {
@@ -106,10 +130,13 @@ func main() {
 			Homepage:       "index.html",
 			MessageHandler: handleMessages,
 			Options: &astilectron.WindowOptions{
-				BackgroundColor: astilectron.PtrStr("#333"),
-				Center:          astilectron.PtrBool(true),
-				Height:          astilectron.PtrInt(1080),
-				Width:           astilectron.PtrInt(1920),
+				//BackgroundColor: astilectron.PtrStr("#333"),
+				Center: astilectron.PtrBool(true),
+				//Height:          astilectron.PtrInt(1080),
+				//Width:           astilectron.PtrInt(1920),
+				//Fullscreen: astilectron.PtrBool(true),
+				Fullscreenable: astilectron.PtrBool(true),
+				Resizable:      astilectron.PtrBool(true),
 			},
 		}},
 	}); err != nil {

@@ -15,11 +15,26 @@ let index = {
             // index.explore();
         })
     },
+    isJson:function(str){
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    },
     jsonChange:function(){
         let temp=document.getElementById("jsonData").value
+
+        //判断josn是否符合标准
+        if(index.isJson(temp)==false ){
+            asticode.notifier.error("json格式不正确！");
+            return
+        }
+        document.getElementById("jsonData").value = JSON.stringify(JSON.parse(json), null, "\t")
+
         if (temp){
             astilectron.sendMessage({name: "jsonToStruct", payload: temp   }, function(message) {
-
                 // Check error
                 if (message){
                     if ( message.name === "error") {
@@ -35,7 +50,6 @@ let index = {
                 document.getElementById("structData").value = "";
                 document.getElementById("nestStructData").value = "";
             });
-
         }
     },
     about: function(html) {

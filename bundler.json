@@ -1,5 +1,5 @@
 {
-  "app_name": "tester",
+  "app_name": "PerfectJsonGo",
   "icon_path_darwin": "resources/icon.icns",
   "icon_path_linux": "resources/icon.png",
   "icon_path_windows": "resources/icon.ico",
@@ -9,7 +9,10 @@
       "arch": "386",
       "os": "windows"
     },
-
+    {
+      "arch": "amd64",
+      "os": "windows"
+    },
     {
       "arch": "amd64",
       "os": "darwin"
