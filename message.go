@@ -1,7 +1,7 @@
 package main
 
 import (
-	"perfectjsongo/api"
+	"github.com/GrayOxygen/perfectjsongo/apis"
 	"encoding/json"
 	"github.com/asticode/go-astichartjs"
 	"io/ioutil"
@@ -54,7 +54,7 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 
 			if len(strings.TrimSpace(jsonStr)) > 0 {
 				//TODO 解析
-				nstct, stct, er := api.JSON2Struct(jsonStr)
+				nstct, stct, er := apis.JSON2Struct(jsonStr)
 				if er != nil {
 					payload = StructInfo{
 						NestStructData: "",
